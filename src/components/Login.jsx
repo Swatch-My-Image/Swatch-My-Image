@@ -17,7 +17,11 @@ function Login() {
         body: JSON.stringify(loginInfo)
       })
       .then(response => response.json())
-      .then(data => data)
+      .then(data => {
+        if(data.status === 200) {
+          navigate('/homepage');
+        }
+      })
     } catch(error) {
       console.log('Invalid username or password')
     }
@@ -31,20 +35,22 @@ function Login() {
   return (
     <div className='login-container'>
       <h1>Welcome to Swatch!</h1>
-      <form className='loginForm' onSubmit={handleLogin}>
+      <form className='login-form' onSubmit={handleLogin}>
         <input 
+          className='input-form'
           type='text' 
           placeholder='Enter username'
           onChange={(e) => setUsername(e.target.value)}
         />
         <input 
+          className='input-form'
           type='password' 
           placeholder='Enter password'
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='submit'>Login</button>
+        <button className='login-button' type='submit'>Login</button>
       </form>
-      <div className='signupLink'>
+      <div className='signup-link'>
         <a onClick={routeToSignup}>Sign up</a>
       </div>
     </div>

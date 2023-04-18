@@ -20,7 +20,7 @@
   --gray: #95a3b3;
 }
 
-.login-container {
+.login-container .signup-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +28,16 @@
   border: solid;
 }
 
-.loginForm {
+.login-form .signup-form{
   display: flex;
   flex-direction: column;
+  padding: 10px;
+}
+
+.input-form {
+  margin: 5px;
+}
+
+.signup-link:hover .login-link:hover{
+  cursor: pointer;
 }

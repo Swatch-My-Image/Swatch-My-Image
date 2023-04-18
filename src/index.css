@@ -19,3 +19,16 @@
   --tiffany-blue: #84dcc6;
   --gray: #95a3b3;
 }
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: solid;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+}

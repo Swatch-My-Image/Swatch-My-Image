@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: var(--white);
+  color: var(--black);
   background-color: var(--off-white);
 
   font-synthesis: none;
@@ -20,7 +20,7 @@
   --gray: #95a3b3;
 }
 
-.login-container .signup-container{
+.login-container, .signup-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,16 +28,17 @@
   border: solid;
 }
 
-.login-form .signup-form{
+.login-form, .signup-form {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  gap: 20px;
 }
 
 .input-form {
   margin: 5px;
 }
 
-.signup-link:hover .login-link:hover{
+.signup-link:hover, .login-link:hover{
   cursor: pointer;
 }

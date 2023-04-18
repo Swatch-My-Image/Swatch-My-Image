@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { StyledButton, WhiteTextField, flexDisplayRow } from './customMuiStyle';
 
 function Signup() {
   const navigate = useNavigate();
@@ -50,35 +51,32 @@ function Signup() {
     <div className='signup-container'>
       <h1>Create an Account</h1>
       <form className='signup-form' onSubmit={handleSignup}>
-        <input 
-          className='input-form'
-          type='text'
-          placeholder='Username'
+        <WhiteTextField 
+          label='Username'
+          size='small'
           name='username'
           onChange={(e) => setUsername(e.target.value)}
         />
-        <input 
-          className='input-form'
-          type='text'
-          placeholder='Email'
+        <WhiteTextField 
+          label='Email'
+          size='small'
           name='email'
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input 
-          className='input-form'
+        <WhiteTextField 
           type='password'
-          placeholder='Password'
+          label='Password'
+          size='small'
           name='password'
           onChange={(e) => setPassword(e.target.value)}
         />
-        <input 
-          className='input-form'
-          type='text'
-          placeholder='Validation Key'
+        <WhiteTextField 
+          label='Validation Key'
+          size='small'
           name='validKey'
           onChange={(e) => setKey(e.target.value)}
         />
-        <button className='signup-button' type='submit'>Sign Up</button>
+        <StyledButton type='submit'>Sign Up</StyledButton>
       </form>
       <div className='login-link'>
         <a onClick={routeToLogin}>Back to Login</a>

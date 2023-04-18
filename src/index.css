@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: var(--white);
-  background-color: var(--black);
+  background-color: var(--off-white);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,7 +14,7 @@
   -webkit-text-size-adjust: 100%;
   --black: #242424;
   --white: #ffffff;
-  --off-white: rgba(255, 255, 255, 0.87);
+  --off-white: #fafafa;
   --violet: #4b4e6d;
   --tiffany-blue: #84dcc6;
   --gray: #95a3b3;

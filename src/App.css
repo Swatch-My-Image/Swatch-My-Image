@@ -1,3 +1,4 @@
-.test {
-  color: var(--tiffany-blue);
+.image {
+  max-width: 400px;
+  box-shadow: 0 0 10px 1px rgb(172, 171, 171);
 }

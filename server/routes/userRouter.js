@@ -1,6 +1,6 @@
 import express from 'express';
-import userController from '../controllers/userController';
-import sessionController from '../controllers/sessionController';
+import { userController } from '../controllers/userController.js';
+import { sessionController } from '../controllers/sessionController.js';
 
 export const userRouter = express.Router();
 
@@ -14,11 +14,15 @@ userRouter.post('/signup',
 );
 
 //login request
-userRouter.post('/login',
-  userController.verifyUser,
-  userController.initializeSession,
-  (req, res) => res.sendStatus(200)
-);
+// userRouter.post('/login',
+//   userController.verifyUser,
+//   userController.initializeSession,
+//   (req, res) => res.sendStatus(200)
+// );
+
+userRouter.post('/decode', userController.jwt, userController.verifyOauth, (req, res) => {
+  res.sendStatus(200);
+})
 
 userRouter.get('/sessions',
   sessionController.validateSession,

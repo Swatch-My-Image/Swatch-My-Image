@@ -15,7 +15,7 @@ function Login() {
   
     const loginInfo = {username, password};
     try {
-      fetch('api/*', {
+      fetch('users/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(loginInfo)
@@ -32,7 +32,22 @@ function Login() {
   }
 
   const responseGoogle = (response) => {
-    const userObject = jwt_decode(response.credential);
+    console.log(response.credential)
+    const responseStr = {credential: response.credential};
+    try {
+      fetch('users/decode', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(responseStr)
+      })
+      .then(response => {
+        if(response.status === 200) {
+          navigate('/homepage');
+        }
+      })
+    } catch(error) {
+      console.log('Invalid google login');
+    }
   }
 
   const routeToSignup = (e) => {

@@ -1,7 +1,8 @@
-import * as db from '../models/swatchModel';
+import * as db from '../models/swatchModel.js';
 import bcrypt from 'bcrypt';
+import jwt_decode from 'jwt-decode';
 
-SALT_WORK_FACTOR = 10;
+ const SALT_WORK_FACTOR = 10;
 
 export const userController = {};
 
@@ -65,3 +66,38 @@ userController.verifyUser = (req, res, next) => {
       // *** BUT WE NEED LOGIC IN LOGIN PAGE TO NOT ALLOW BLANK PASSWORD SUBMISSION
       // USER CAN BE VERIFIED
 };
+
+userController.jwt = (req, res, next) => {
+  try {
+    const userObject = jwt_decode(req.body.credential);
+    res.locals.googleEmail = userObject.email;
+    return next();
+  } catch(error) {
+    return next({
+      log: 'Error occurred in userController.jwt middleware',
+      status: 500,
+      message: { error },
+    });
+  }
+}
+
+userController.verifyOauth = async (req, res, next) => {
+  try {
+    const queryExistingUser = `SELECT * FROM users WHERE email = ${res.locals.googleEmail}`;
+    const queryResult = await db.query(queryExistingUser);
+    console.log('query results: ', queryResult);
+
+    if(queryResult.rows.length === 0) {
+      const queryStr = `INSERT INTO users (id, username, email, password) VALUES (DEFAULT, $1, $2, $3) RETURNING id`;
+      const newGoogleUser = ['google user', email, 'google password'];
+      const userId = await db.query(queryStr, newGoogleUser);
+    }
+    return next();
+  } catch(error) {
+    return next({
+      log: 'Error occurred in userController.verifyOauth middleware',
+      status: 500,
+      message: { error },
+    });
+  }
+}

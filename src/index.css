@@ -30,7 +30,21 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: solid;
+  border: 3px solid var(--violet);
+  border-radius: 0.5rem;
+  width: 50%;
+  height: 50%;
+  margin-top: 13rem;
+  margin-left: 18rem;
+  padding-bottom: 1rem;
+}
+
+.login-container > h1,
+.signup-container > h1 {
+  color: var(--violet);
+  font-family: 'Amatic SC';
+  font-size: 4rem;
+  margin: 1rem;
 }
 
 .login-form,

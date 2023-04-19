@@ -20,7 +20,12 @@
   --gray: #95a3b3;
 }
 
-.login-container, .signup-container {
+body {
+  margin: 0;
+}
+
+.login-container,
+.signup-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -28,7 +33,8 @@
   border: solid;
 }
 
-.login-form, .signup-form {
+.login-form,
+.signup-form {
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -39,7 +45,8 @@
   margin: 5px;
 }
 
-.signup-link:hover, .login-link:hover{
+.signup-link:hover,
+.login-link:hover {
   cursor: pointer;
 }
 

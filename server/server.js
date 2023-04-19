@@ -1,7 +1,5 @@
 import express from 'express';
-
 import { swatchRouter } from './routes/swatchRouter.js';
-
 
 const app = express();
 

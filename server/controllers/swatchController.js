@@ -1,7 +1,7 @@
-import Vibrant from 'node-vibrant';
-import sharp from 'sharp';
-import fetch from 'node-fetch';
-import { db } from '../models/swatchModel.js';
+import Vibrant from "node-vibrant";
+import sharp from "sharp";
+import fetch from "node-fetch";
+import { db } from "../models/swatchModel.js";
 
 // Just a simple cache for images that we already have seen before
 const cache = {};
@@ -9,14 +9,14 @@ const cache = {};
 export const swatchController = {};
 
 swatchController.test = (req, res, next) => {
-  console.log('running swatchController.testNow!');
+  console.log("running swatchController.test");
   const queryStr = `SELECT * FROM users`;
   db.query(queryStr, (err, result) => {
     // error handler
     // if there's error, return next({error obj})
     if (err) {
       return next({
-        log: 'swatchController.test caught unknown error',
+        log: "swatchController.test caught unknown error",
         status: 500,
         message: { err },
       });
@@ -47,7 +47,41 @@ swatchController.getPalette = async (req, res, next) => {
     return next({
       log: error,
       status: 400,
-      message: { err: 'An error occurred in `swatchController.getPalette`' },
+      message: { err: "An error occurred in `swatchController.getPalette`" },
     });
   }
 };
+
+swatchController.saveImage = async (req, res, next) => {
+  try {
+    console.log("running swatchController.saveImage");
+    const url = req.body.url;
+    console.log("url:", url);
+    const queryStr = `
+    INSERT INTO images (url)
+    VALUES ('${url}')
+    ON CONFLICT DO NOTHING
+    RETURNING id
+    `;
+
+    /*
+    ALTER TABLE images
+    ALTER COLUMN url TYPE UNIQUE VARCHAR(2048)
+    ADD CONSTRAINT url UNIQUE
+    */
+
+    // ALTER TABLE the_table ADD CONSTRAINT constraint_name UNIQUE (thecolumn);
+
+    const imageId = await db.query(queryStr);
+    res.locals.imageId = imageId;
+    return next();
+  } catch (error) {
+    return next({
+      log: "swatchController.saveImage caught unknown error",
+      status: 500,
+      message: { error },
+    });
+  }
+};
+
+swatchController.savePalette = async (req, res, next) => {};

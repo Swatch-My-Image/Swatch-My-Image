@@ -1,5 +1,6 @@
 import express from 'express';
 import { swatchRouter } from './routes/swatchRouter.js';
+import { userRouter } from './routes/userRouter.js';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * define route handlers
  */
+app.use('/users', userRouter);
 app.use("/swatch", swatchRouter);
 
 app.use((req, res, next) => {

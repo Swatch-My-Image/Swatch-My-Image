@@ -2,9 +2,10 @@ import Vibrant from 'node-vibrant';
 import sharp from 'sharp';
 import fetch from 'node-fetch';
 import { db } from '../models/swatchModel.js';
+import kvjs from '@heyputer/kv.js';
 
-// Just a simple cache for images that we already have seen before
-const cache = {};
+const cache = new kvjs();
+const ONE_HOUR_IN_SECONDS = 3600;
 
 export const swatchController = {};
 
@@ -29,9 +30,8 @@ swatchController.test = (req, res, next) => {
 swatchController.getPalette = async (req, res, next) => {
   try {
     const url = req.body.url;
-    if (cache.hasOwnProperty(url)) {
-      res.locals.swatches = cache[url];
-    } else {
+    const cacheValue = cache.get(url);
+    if (cacheValue === null) {
       // Some online URL are webp, and `node-vibrant` does not support webp
       // So we need to download and convert the image to JPEG before
       // abstracting the color palette
@@ -40,7 +40,11 @@ swatchController.getPalette = async (req, res, next) => {
       const jpeg = await sharp(imageBuffer).jpeg().toBuffer();
       const palettes = await Vibrant.from(jpeg).getPalette();
       const swatches = Object.values(palettes).map((swatch) => swatch.getHex());
-      cache[url] = res.locals.swatches = swatches;
+      res.locals.swatches = swatches;
+      cache.set(url, swatches);
+      cache.expire(url, ONE_HOUR_IN_SECONDS);
+    } else {
+      res.locals.swatches = cacheValue;
     }
     return next();
   } catch (error) {

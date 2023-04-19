@@ -1,8 +1,6 @@
 import express from 'express';
-
 import { swatchRouter } from './routes/swatchRouter.js';
 import { userRouter } from './routes/userRouter.js';
-
 
 const app = express();
 

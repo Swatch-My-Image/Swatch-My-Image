@@ -11,7 +11,7 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
     if (!username || !password) {
-      throw new Error('No field can be left blank');
+      alert('No field can be left blank');
     }
     const loginInfo = {username, password};
     try {
@@ -23,6 +23,8 @@ function Login() {
       .then(response => {
         if(response.status === 200) {
           navigate('/homepage');
+        } else {
+          alert('Invalid Credentials');
         }
       })
     } catch(error) {

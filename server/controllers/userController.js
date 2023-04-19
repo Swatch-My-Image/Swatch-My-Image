@@ -16,7 +16,7 @@ userController.createUser = async (req, res, next) => {
         VALUES
           ($1, $2, $3, $4)
         ON CONFLICT (email) DO NOTHING
-        RETURNING *;
+        RETURNING id;
       `;
       const values = [
         username,
@@ -29,7 +29,13 @@ userController.createUser = async (req, res, next) => {
     })
     .then(response => {
       if (!response.rows.length) {
-        throw new Error('Username already taken');
+        return next({
+          log: 'Error occured in userController.createUser',
+          status: 409,
+          message: {
+            err: 'Email already in use'
+          }
+        });
       }
       return next();
     })
@@ -62,7 +68,13 @@ userController.verifyUser = (req, res, next) => {
         res.locals.user = username;
         return next();
       } else {
-        throw new Error('Invalid Credentials');
+        return next({
+          log: 'Error occured in userController.verifyUser',
+          status: 403,
+          message: {
+            err: 'Invalid Credentials'
+          }
+        });
       }
     })
     .catch(err => {

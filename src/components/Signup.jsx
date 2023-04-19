@@ -14,7 +14,7 @@ function Signup() {
     e.preventDefault();
 
     if (!username || !email || !password || !key) {
-      throw new Error('No field can be left blank');
+      alert('No field can be left blank');
     }
     
     const signupInfo = {
@@ -32,13 +32,16 @@ function Signup() {
       body: JSON.stringify(signupInfo)
     })
     .then(response => {
-      if (response.status === 200){
-        console.log('Sign up success!');
+      if (response.status === 409) {
+        alert('Email already in use');
+      }
+      if (response.status === 200) {
+        alert('Signup Success!');
         navigate('/');
       }
     })
     .catch(err => {
-      console.log('Error: ', err);
+      alert('Error: ', err);
     })
   }
 

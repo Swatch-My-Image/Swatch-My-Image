@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 // Refer to the variables in `:root` in index.css for consistency
-const VIOLET = '#5C5F84';
+export const VIOLET = '#5C5F84';
 const GRAY = '#95a3b3';
 const TIFFANY_BLUE = '#84dcc6';
 const DARK_VIOLET = '#4b4e6d';

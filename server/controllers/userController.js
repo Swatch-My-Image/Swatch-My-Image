@@ -1,26 +1,23 @@
-import * as db from '../models/swatchModel.js';
+import { db } from '../models/swatchModel.js.js';
 import bcrypt from 'bcrypt';
 import jwt_decode from 'jwt-decode';
 
- const SALT_WORK_FACTOR = 10;
+const SALT_WORK_FACTOR = 10;
 
 export const userController = {};
 
-userController.createUser = (req, res, next) => {
+userController.createUser = async (req, res, next) => {
   const { username, email, password, key } = req.body;
 
   bcrypt.hash(password, SALT_WORK_FACTOR)
     .then(hash => {
       const query = `
         INSERT INTO users
-          (username, email, password, key)
-        SELECT
-          $1, $2, $3, $4
-        WHERE NOT EXISTS (
-          SELECT email
-          FROM users
-          WHERE email = $2
-        )
+          (username, email, password, validateKey)
+        VALUES
+          ($1, $2, $3, $4)
+        ON CONFLICT (email) DO NOTHING
+        RETURNING id;
       `;
       const values = [
         username,
@@ -29,9 +26,18 @@ userController.createUser = (req, res, next) => {
         key
       ];
 
-      db.query(query, values);
+      return db.query(query, values);
     })
     .then(response => {
+      if (!response.rows.length) {
+        return next({
+          log: 'Error occured in userController.createUser',
+          status: 409,
+          message: {
+            err: 'Email already in use'
+          }
+        });
+      }
       return next();
     })
     .catch(err => {
@@ -45,26 +51,41 @@ userController.createUser = (req, res, next) => {
 };
 
 userController.verifyUser = (req, res, next) => {
-  // need to be able to verify native auth user
-  // need to be able to verify Oauth user
-
-  // try to query database for user
-  // if user doesnt exist
-    // if it is a valid Oauth request
-      // insert user into users table with DUMMY PASSWORD
-      // USER HAS BEEN VERIFIED
-    // if invalid Oauth Request
-        // USER CANNOT BE VERIFIED
-  // else if user exists
-    // if user provided a password
-      // hash the password and compare with user's password
-      // if match, USER HAS BEEN VERIFIED
-      // else, USER CANNOT BE VERIFIED
-    // if user did not provide a password
-      // *** this means user was found in database but password was not provided
-      // *** would reach this route if using OAuth because oauth doesnt provide password
-      // *** BUT WE NEED LOGIC IN LOGIN PAGE TO NOT ALLOW BLANK PASSWORD SUBMISSION
-      // USER CAN BE VERIFIED
+  const { username, password } = req.body;
+  const query = `
+    SELECT *
+    FROM users
+    WHERE username = $1
+  `;
+  const values = [username];
+  
+  db.query(query, values)
+    .then(response => {
+      const user = response.rows[0];
+      return bcrypt.compare(password, user.password);
+    })
+    .then(valid => {
+      if (valid) {
+        res.locals.user = username;
+        return next();
+      } else {
+        return next({
+          log: 'Error occured in userController.verifyUser',
+          status: 403,
+          message: {
+            err: 'Invalid Credentials'
+          }
+        });
+      }
+    })
+    .catch(err => {
+      return next({
+        log: 'Error in userController.verifyUser',
+        message: {
+          err: err
+        }
+      });
+    });
 };
 
 userController.jwt = (req, res, next) => {

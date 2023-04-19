@@ -8,15 +8,13 @@ export const userRouter = express.Router();
 //signup request
 userRouter.post('/signup',
   userController.createUser,
-  (req, res) => {
-    res.sendStatus(200);
-  }
+  (req, res) => res.sendStatus(200)
 );
 
 //login request
 userRouter.post('/login',
   userController.verifyUser,
-  userController.initializeSession,
+  sessionController.initializeSession,
   (req, res) => res.sendStatus(200)
 );
 

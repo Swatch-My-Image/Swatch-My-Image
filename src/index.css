@@ -42,3 +42,7 @@
 .signup-link:hover, .login-link:hover{
   cursor: pointer;
 }
+
+.google-login-button {
+  background-color: #fafafa;
+}

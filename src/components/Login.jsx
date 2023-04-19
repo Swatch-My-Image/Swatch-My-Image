@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyledButton, WhiteTextField } from './customMuiStyle';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 
 function Login() {
   const navigate = useNavigate();
@@ -29,6 +31,12 @@ function Login() {
     }
   }
 
+  const responseGoogle = (response) => {
+    console.log('Google response: ', response);
+    const userObject = jwt_decode(response.credential);
+    console.log('User Object: ', userObject);
+  }
+
   const routeToSignup = (e) => {
     e.preventDefault();
     navigate('/signup');
@@ -55,6 +63,17 @@ function Login() {
       </form>
       <div className='signup-link'>
         <a onClick={routeToSignup}>Sign up</a>
+      </div>
+      <div>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OATH_CLIENT_ID}>
+        <GoogleLogin 
+          // render={renderProps => (
+          //   <button type='button' onClick={renderProps.onClick} disabled={renderProps.disabled} style={{color: "red"}}>This is my custom Google button</button>
+          // )}
+          onSuccess={responseGoogle}
+          onError={responseGoogle}
+        />
+      </GoogleOAuthProvider>
       </div>
     </div>
   );

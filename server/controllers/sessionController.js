@@ -1,6 +1,6 @@
 export const sessionController = {};
 
-sessionController.initializeSession =(req, res, next) => {
+sessionController.initializeSession = (req, res, next) => {
   const { user } = res.locals;
   if (!req.session.user) {
     req.session.user = user;
@@ -9,8 +9,8 @@ sessionController.initializeSession =(req, res, next) => {
     return next({
       log: 'Error occures in sessionController.initializeSession',
       message: {
-        err: 'Unable to initialize a session because session already exists'
-      }
+        err: 'Unable to initialize a session because session already exists',
+      },
     });
   }
 };
@@ -24,8 +24,17 @@ sessionController.validateSession = (req, res, next) => {
 };
 
 sessionController.terminateSession = (req, res, next) => {
-  req.session.destroy((err) => {
-    if (err) console.log('Error: ', err)
-    next();
-  })
+  // remove sessionID cookie on client side
+  // destroy session
+  console.log('destroying session');
+  req.session.destroy((error) => {
+    if (error) {
+      return next(
+        createErrorObject(error, 'sessionController.terminateSession')
+      );
+    } else {
+      res.clearCookie('connect.sid');
+      return next();
+    }
+  });
 };

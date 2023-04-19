@@ -35,7 +35,6 @@ function Login() {
   }
 
   const responseGoogle = (response) => {
-    console.log(response.credential)
     const responseStr = {credential: response.credential};
     try {
       fetch('users/decode', {

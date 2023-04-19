@@ -1,4 +1,4 @@
-import { db } from '../models/swatchModel.js.js';
+import { db } from '../models/swatchModel.js';
 import bcrypt from 'bcrypt';
 import jwt_decode from 'jwt-decode';
 
@@ -104,7 +104,7 @@ userController.jwt = (req, res, next) => {
 
 userController.verifyOauth = async (req, res, next) => {
   try {
-    const queryStr = `UPSERT INTO users (id, username, email, password) VALUES (DEFAULT, $1, $2, $3) ON CONFLICT DO NOTHING`;
+    const queryStr = `UPSERT INTO users (id, username, email, password) VALUES (DEFAULT, $1, $2, $3) ON CONFLICT (email) DO NOTHING RETURNING id`;
     const newGoogleUser = ['google user', email, 'google password'];
     const userId = await db.query(queryStr, newGoogleUser);
     return next();

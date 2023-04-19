@@ -1,20 +1,34 @@
-import { flexDisplayRow } from './customMuiStyle';
+import { VIOLET, flexDisplayRow } from './customMuiStyle';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import PaletteButton from './copiedTooltip';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
+export interface ImagePaletteState {
+  lastIndex: number;
+  data: ImagePalette[];
+}
 
 export interface ImagePalette {
   url: string;
+  index: number;
   palettes: string[];
 }
 
-function ColorPaletteContainer({ url, palettes }: ImagePalette): JSX.Element {
+function ColorPaletteContainer({
+  handleDelete,
+  imagePalette,
+}: {
+  handleDelete: (index: number) => void;
+  imagePalette: ImagePalette;
+}): JSX.Element {
+  const { url, index, palettes } = imagePalette;
   return (
     <Container
       sx={{
         ...flexDisplayRow,
-        gap: '4rem',
+        gap: '3rem',
         marginBottom: '3rem',
       }}
     >
@@ -28,7 +42,7 @@ function ColorPaletteContainer({ url, palettes }: ImagePalette): JSX.Element {
               sx={{
                 height: '100%',
                 position: 'relative',
-                width: 100,
+                width: 80,
                 backgroundColor: palette,
                 borderRadius: 0,
                 border: '1px solid #4b4e6d',
@@ -39,6 +53,14 @@ function ColorPaletteContainer({ url, palettes }: ImagePalette): JSX.Element {
           </Grid>
         ))}
       </Grid>
+      <HighlightOffIcon
+        style={{
+          display: 'inline-block',
+          alignSelf: 'center',
+          color: `${VIOLET}`,
+        }}
+        onClick={() => handleDelete(index)}
+      />
     </Container>
   );
 }

@@ -1,15 +1,16 @@
 describe('Verify elements of Login page', () => {
   
-  before(() => {
-    cy.exec('npm run build && npm run dev')
+  beforeEach(() => {
+    cy.visit('/')
   })
   // HOMEPAGE
   it('successfully loads', () => {
-    cy.visit('/login') // dev URL
+    cy.visit('/') // dev URL
   })
 
   // Should have a e-mail input field
   it('has e-mail input field', () => {
+    cy.visit('/')
     cy.get('input[name=username]').should('exist')
   })
 
@@ -20,18 +21,18 @@ describe('Verify elements of Login page', () => {
 
   // Should have a submit button
   it('has submit login credentials button', () => {
-    cy.get('button').should('exist')
+    cy.get('button').should('have.text', 'Login')
   })
 
   // Should have a sign up link
   it('has signup link', () => {
-    cy.get('a[href*="signup"').should('exist');
+    cy.get('a').should('have.text', 'Sign up');
   })
 
   // EXTENSIONS
   // Should have a forgot password link
   xit('has "forgot password" link', () => {
-    cy.get('a[href*="request-reset"').should('exist');
+    cy.get('a').should('have.text', 'Forgot Password');
   });
   
   // Should have a 'Login through google' button
@@ -40,8 +41,9 @@ describe('Verify elements of Login page', () => {
 
 // SIGN UP PAGE
 describe('Verify elements of Sign-Up page', () => {
-  before(() => {
-    cy.exec('npm run build && npm run dev')
+  
+  beforeEach(() => {
+    cy.visit('/signup')
   })
 
   // SIGN UPPAGE
@@ -51,7 +53,7 @@ describe('Verify elements of Sign-Up page', () => {
   
   // Should have a name input field
   it('has name input field', () => {
-    cy.get('input[name=name]').should('exist')
+    cy.get('input[name=username]').should('exist')
   })
 
   // Should have a e-mail input field
@@ -69,12 +71,12 @@ describe('Verify elements of Sign-Up page', () => {
 
   // Should have a submit button
   it('has submit login credentials button', () => {
-    cy.get('button').should('exist')
+    cy.get('button').should('have.text', 'Sign Up')
   })
 
   // Should have go back to login page button
   it('has go to back to login page link', () => {
-    cy.get('a[href*="login"').should('exist')
+    cy.get('a').should('have.text', 'Back to Login')
   })
   
 })

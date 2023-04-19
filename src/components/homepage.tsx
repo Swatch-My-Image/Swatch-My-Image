@@ -6,6 +6,7 @@ import ColorPaletteContainer, {
   ImagePaletteState,
 } from './colorPaletteContainer';
 import axios from 'axios';
+import NavBar from './navBar';
 
 const initialState: ImagePaletteState = { lastIndex: 0, data: [] };
 
@@ -49,28 +50,31 @@ function HomePage(): JSX.Element {
   };
 
   return (
-    <Container>
-      <form onSubmit={handleSubmit}>
-        <Container sx={{ ...flexDisplayRow, gap: '1rem', marginBottom: 5 }}>
-          <WhiteTextField
-            fullWidth
-            inputRef={urlRef}
-            label='URL'
-            style={{ width: '50vw' }}
-          />
-          <StyledButton type='submit'>Generate Palette</StyledButton>
-        </Container>
-      </form>
-      {imagePalette.data.map((obj: ImagePalette) => {
-        return (
-          <ColorPaletteContainer
-            key={`${obj.index}`}
-            handleDelete={handleDelete}
-            imagePalette={obj}
-          />
-        );
-      })}
-    </Container>
+    <>
+      <NavBar />
+      <Container>
+        <form onSubmit={handleSubmit}>
+          <Container sx={{ ...flexDisplayRow, gap: '1rem', marginBottom: 5 }}>
+            <WhiteTextField
+              fullWidth
+              inputRef={urlRef}
+              label='URL'
+              style={{ width: '50vw' }}
+            />
+            <StyledButton type='submit'>Generate Palette</StyledButton>
+          </Container>
+        </form>
+        {imagePalette.data.map((obj: ImagePalette) => {
+          return (
+            <ColorPaletteContainer
+              key={`${obj.index}`}
+              handleDelete={handleDelete}
+              imagePalette={obj}
+            />
+          );
+        })}
+      </Container>
+    </>
   );
 }
 

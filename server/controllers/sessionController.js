@@ -1,9 +1,9 @@
 export const sessionController = {};
 
 sessionController.initializeSession =(req, res, next) => {
-
-  if (!req.session) {
-    req.session.user = 'something'; // SET THIS TO SOMETHING ONCE WE ESTABLISH RES.LOCALS FROM PREV MIDDLEWARE
+  const { user } = res.locals;
+  if (!req.session.user) {
+    req.session.user = user;
     return next();
   } else {
     return next({

@@ -12,6 +12,10 @@ function Signup() {
 
   const handleSignup = (e) => {
     e.preventDefault();
+
+    if (!username || !email || !password || !key) {
+      throw new Error('No field can be left blank');
+    }
     
     const signupInfo = {
       username,
@@ -20,25 +24,22 @@ function Signup() {
       key
     };
 
-    try {
-      fetch('WHAT WILL BE THE ENDPOINT', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(signupInfo)
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 200) {
-          console.log('Sign up success!');
-          navigate('/');
-        }
-      })
-
-    } catch(error) {
-      console.log('Error: ', error);
-    }
+    fetch('/users/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(signupInfo)
+    })
+    .then(response => {
+      if (response.status === 200){
+        console.log('Sign up success!');
+        navigate('/');
+      }
+    })
+    .catch(err => {
+      console.log('Error: ', err);
+    })
   }
 
 

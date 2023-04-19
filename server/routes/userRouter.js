@@ -1,6 +1,6 @@
 import express from 'express';
-import userController from '../controllers/userController';
-import sessionController from '../controllers/sessionController';
+import { userController } from '../controllers/userController.js';
+import { sessionController } from '../controllers/sessionController.js';
 
 export const userRouter = express.Router();
 
@@ -8,15 +8,13 @@ export const userRouter = express.Router();
 //signup request
 userRouter.post('/signup',
   userController.createUser,
-  (req, res) => {
-    res.sendStatus(200);
-  }
+  (req, res) => res.sendStatus(200)
 );
 
 //login request
 userRouter.post('/login',
   userController.verifyUser,
-  userController.initializeSession,
+  sessionController.initializeSession,
   (req, res) => res.sendStatus(200)
 );
 

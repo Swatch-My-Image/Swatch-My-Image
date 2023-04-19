@@ -10,18 +10,21 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-  
+    if (!username || !password) {
+      alert('No field can be left blank');
+    }
     const loginInfo = {username, password};
     try {
-      fetch('api/*', {
+      fetch('/users/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(loginInfo)
       })
-      .then(response => response.json())
-      .then(data => {
-        if(data.status === 200) {
+      .then(response => {
+        if(response.status === 200) {
           navigate('/homepage');
+        } else {
+          alert('Invalid Credentials');
         }
       })
     } catch(error) {

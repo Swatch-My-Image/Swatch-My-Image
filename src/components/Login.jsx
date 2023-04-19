@@ -32,9 +32,7 @@ function Login() {
   }
 
   const responseGoogle = (response) => {
-    console.log('Google response: ', response);
     const userObject = jwt_decode(response.credential);
-    console.log('User Object: ', userObject);
   }
 
   const routeToSignup = (e) => {
@@ -67,9 +65,6 @@ function Login() {
       <div>
       <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OATH_CLIENT_ID}>
         <GoogleLogin 
-          // render={renderProps => (
-          //   <button type='button' onClick={renderProps.onClick} disabled={renderProps.disabled} style={{color: "red"}}>This is my custom Google button</button>
-          // )}
           onSuccess={responseGoogle}
           onError={responseGoogle}
         />

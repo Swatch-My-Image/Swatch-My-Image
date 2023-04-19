@@ -57,23 +57,30 @@ swatchController.saveImage = async (req, res, next) => {
     console.log("running swatchController.saveImage");
     const url = req.body.url;
     console.log("url:", url);
-    const queryStr = `
+
+    const queryForImage = `
+    SELECT id
+    FROM images
+    WHERE url = '${url}'
+    `;
+
+    const queryToInsert = `
     INSERT INTO images (url)
     VALUES ('${url}')
     ON CONFLICT DO NOTHING
     RETURNING id
     `;
 
-    /*
-    ALTER TABLE images
-    ALTER COLUMN url TYPE UNIQUE VARCHAR(2048)
-    ADD CONSTRAINT url UNIQUE
-    */
+    // queryForImage
+    let queryResult = await db.query(queryForImage);
 
-    // ALTER TABLE the_table ADD CONSTRAINT constraint_name UNIQUE (thecolumn);
+    if (queryResult.rows.length === 0) {
+      queryResult = await db.query(queryToInsert);
+    }
 
-    const imageId = await db.query(queryStr);
-    res.locals.imageId = imageId;
+    const imageID = queryResult.rows[0].id;
+    console.log("imageID:", imageID);
+    res.locals.imageID = imageID;
     return next();
   } catch (error) {
     return next({

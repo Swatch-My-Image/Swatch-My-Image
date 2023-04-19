@@ -12,7 +12,7 @@ swatchRouter.post(
   // swatchController.savePalette,
   // swatchController.saveCollection,
   (req, res) => {
-    return res.status(200);
+    return res.status(200).json(res.locals.imageID);
   }
 );
 

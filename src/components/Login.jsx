@@ -43,6 +43,8 @@ function Login() {
       .then(response => {
         if(response.status === 200) {
           navigate('/homepage');
+        } else {
+          alert('Error trying to login: ', response.status);
         }
       })
     } catch(error) {

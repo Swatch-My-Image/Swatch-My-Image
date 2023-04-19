@@ -14,11 +14,11 @@ userRouter.post('/signup',
 );
 
 //login request
-// userRouter.post('/login',
-//   userController.verifyUser,
-//   userController.initializeSession,
-//   (req, res) => res.sendStatus(200)
-// );
+userRouter.post('/login',
+  userController.verifyUser,
+  userController.initializeSession,
+  (req, res) => res.sendStatus(200)
+);
 
 userRouter.post('/decode', userController.jwt, userController.verifyOauth, (req, res) => {
   res.sendStatus(200);

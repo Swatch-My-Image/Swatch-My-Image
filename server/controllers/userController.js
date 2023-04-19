@@ -83,15 +83,9 @@ userController.jwt = (req, res, next) => {
 
 userController.verifyOauth = async (req, res, next) => {
   try {
-    const queryExistingUser = `SELECT * FROM users WHERE email = ${res.locals.googleEmail}`;
-    const queryResult = await db.query(queryExistingUser);
-    console.log('query results: ', queryResult);
-
-    if(queryResult.rows.length === 0) {
-      const queryStr = `INSERT INTO users (id, username, email, password) VALUES (DEFAULT, $1, $2, $3) RETURNING id`;
-      const newGoogleUser = ['google user', email, 'google password'];
-      const userId = await db.query(queryStr, newGoogleUser);
-    }
+    const queryStr = `UPSERT INTO users (id, username, email, password) VALUES (DEFAULT, $1, $2, $3) ON CONFLICT DO NOTHING`;
+    const newGoogleUser = ['google user', email, 'google password'];
+    const userId = await db.query(queryStr, newGoogleUser);
     return next();
   } catch(error) {
     return next({

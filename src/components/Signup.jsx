@@ -32,12 +32,13 @@ function Signup() {
       body: JSON.stringify(signupInfo)
     })
     .then(response => {
-      if (response.status === 409) {
-        alert('Email already in use');
-      }
       if (response.status === 200) {
         alert('Signup Success!');
         navigate('/');
+      } else if (response.status === 409) {
+        alert('Email already in use');
+      } else {
+        alert('Signup failed. Please try again');
       }
     })
     .catch(err => {

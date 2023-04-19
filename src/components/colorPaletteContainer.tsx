@@ -1,4 +1,4 @@
-import { VIOLET, flexDisplayRow } from './customMuiStyle';
+import { StyledIconButton, VIOLET, flexDisplayRow } from './customMuiStyle';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -53,14 +53,9 @@ function ColorPaletteContainer({
           </Grid>
         ))}
       </Grid>
-      <HighlightOffIcon
-        style={{
-          display: 'inline-block',
-          alignSelf: 'center',
-          color: `${VIOLET}`,
-        }}
-        onClick={() => handleDelete(index)}
-      />
+      <StyledIconButton onClick={() => handleDelete(index)}>
+        <HighlightOffIcon />
+      </StyledIconButton>
     </Container>
   );
 }

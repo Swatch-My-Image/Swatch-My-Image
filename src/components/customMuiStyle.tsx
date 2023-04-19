@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { IconButton, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
@@ -59,8 +60,31 @@ export const InvisibleButton = styled(Button)({
   },
 });
 
-export const flexDisplayRow = {
+export const StyledIconButton = styled(IconButton)({
+  display: 'inline-block',
+  alignSelf: 'center',
+  color: VIOLET,
+  '&:hover': {
+    pointer: 'cursor',
+    backgroundColor: 'transparent',
+    color: BLACK,
+  },
+});
+
+export const Logo = styled(Typography)({
+  variant: 'h6',
+  component: 'div',
+  flexGrow: 1,
+  fontFamily: 'Amatic SC',
+  fontSize: 32,
+});
+
+export const flexRow = {
   display: 'flex',
   flexDirection: 'row',
+};
+
+export const flexDisplayRow = {
+  ...flexRow,
   justifyContent: 'center',
 };

@@ -1,5 +1,5 @@
 // const express = require('express');
-import {swatchController} from "../controllers/swatchController.js";
+import { swatchController } from "../controllers/swatchController.js";
 import express from 'express';
 
 export const swatchRouter = express.Router();

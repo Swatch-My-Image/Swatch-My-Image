@@ -1,7 +1,7 @@
-// import db from "../models/swatchModel";
 import Vibrant from 'node-vibrant';
 import sharp from 'sharp';
 import fetch from 'node-fetch';
+import { db } from '../models/swatchModel.js';
 
 // Just a simple cache for images that we already have seen before
 const cache = {};
@@ -10,7 +10,20 @@ export const swatchController = {};
 
 swatchController.test = (req, res, next) => {
   console.log('running swatchController.testNow!');
-  return next();
+  const queryStr = `SELECT * FROM users`;
+  db.query(queryStr, (err, result) => {
+    // error handler
+    // if there's error, return next({error obj})
+    if (err) {
+      return next({
+        log: 'swatchController.test caught unknown error',
+        status: 500,
+        message: { err },
+      });
+    }
+    console.log(result.rows);
+    return next();
+  });
 };
 
 swatchController.getPalette = async (req, res, next) => {

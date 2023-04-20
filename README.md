@@ -18,6 +18,7 @@ Technologies and concepts explored:
   - SQL
 - Authentication and Open Authorization
 - Server-side caching
+- Testing with Cypress
 - [System Architecture and Data Modeling](https://excalidraw.com/#room=80755371d230c425e27c,69RJkvmmc_sIDCRm9GgHnA_)
 
 ---

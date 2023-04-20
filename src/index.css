@@ -4,66 +4,62 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--black);
+  background-color: var(--off-white);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  --black: #242424;
+  --white: #ffffff;
+  --off-white: #fafafa;
+  --violet: #4b4e6d;
+  --tiffany-blue: #84dcc6;
+  --gray: #95a3b3;
 }
 
 body {
   margin: 0;
+}
+
+.login-container,
+.signup-container {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid var(--violet);
+  border-radius: 0.5rem;
+  width: 50%;
+  height: 50%;
+  margin-top: 13rem;
+  margin-left: 18rem;
+  padding-bottom: 1rem;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.login-container > h1,
+.signup-container > h1 {
+  color: var(--violet);
+  font-family: 'Amatic SC';
+  font-size: 4rem;
+  margin: 1rem;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+.login-form,
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 20px;
+}
+
+.input-form {
+  margin: 5px;
+}
+
+.signup-link:hover,
+.login-link:hover {
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

@@ -18,6 +18,10 @@ userRouter.post('/login',
   (req, res) => res.sendStatus(200)
 );
 
+userRouter.post('/decode', userController.jwt, userController.verifyOauth, (req, res) => {
+  res.sendStatus(200);
+})
+
 userRouter.get('/sessions',
   sessionController.validateSession,
   (req, res) => {

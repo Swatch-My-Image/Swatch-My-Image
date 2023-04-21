@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StyledButton, WhiteTextField } from './customMuiStyle';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 
 function Login() {
   const navigate = useNavigate();
@@ -32,6 +34,26 @@ function Login() {
     }
   };
 
+  const responseGoogle = (response) => {
+    const responseStr = {credential: response.credential};
+    try {
+      fetch('users/decode', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(responseStr)
+      })
+      .then(response => {
+        if(response.status === 200) {
+          navigate('/homepage');
+        } else {
+          alert('Error trying to login: ', response.status);
+        }
+      })
+    } catch(error) {
+      console.log('Invalid google login');
+    }
+  }
+
   const routeToSignup = (e) => {
     e.preventDefault();
     navigate('/signup');
@@ -58,6 +80,14 @@ function Login() {
       </form>
       <div className='signup-link'>
         <a onClick={routeToSignup}>Sign up</a>
+      </div>
+      <div>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OATH_CLIENT_ID}>
+        <GoogleLogin 
+          onSuccess={responseGoogle}
+          onError={responseGoogle}
+        />
+      </GoogleOAuthProvider>
       </div>
     </div>
   );

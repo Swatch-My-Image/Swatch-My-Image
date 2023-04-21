@@ -1,5 +1,6 @@
 import { db } from '../models/swatchModel.js';
 import bcrypt from 'bcrypt';
+import jwt_decode from 'jwt-decode';
 
 const SALT_WORK_FACTOR = 10;
 
@@ -86,3 +87,32 @@ userController.verifyUser = (req, res, next) => {
       });
     });
 };
+
+userController.jwt = (req, res, next) => {
+  try {
+    const userObject = jwt_decode(req.body.credential);
+    res.locals.googleEmail = userObject.email;
+    return next();
+  } catch(error) {
+    return next({
+      log: 'Error occurred in userController.jwt middleware',
+      status: 500,
+      message: { error },
+    });
+  }
+}
+
+userController.verifyOauth = async (req, res, next) => {
+  try {
+    const queryStr = `UPSERT INTO users (id, username, email, password) VALUES (DEFAULT, $1, $2, $3) ON CONFLICT (email) DO NOTHING RETURNING id`;
+    const newGoogleUser = ['google user', email, 'google password'];
+    const userId = await db.query(queryStr, newGoogleUser);
+    return next();
+  } catch(error) {
+    return next({
+      log: 'Error occurred in userController.verifyOauth middleware',
+      status: 500,
+      message: { error },
+    });
+  }
+}

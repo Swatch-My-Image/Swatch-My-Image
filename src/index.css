@@ -63,3 +63,7 @@ body {
 .login-link:hover {
   cursor: pointer;
 }
+
+.google-login-button {
+  background-color: #fafafa;
+}
